@@ -107,7 +107,15 @@
         }
 
         function fillCurrentPages(beginning) {
-            var index = beginning;
+            var index;
+            if(beginning < 1 ){
+                index = 1
+            } else if (beginning > maxPage){
+                 index = maxPage;
+            }else {
+                index = beginning;
+            }
+            
             var currentPages = [];
             for (let i = 1; i <= itemsPerPage; i++) {
                 currentPages.push(totalPages[index]);
