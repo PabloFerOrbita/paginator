@@ -94,7 +94,7 @@
 
             if (e.target.title == '1') {
                 document.querySelector('[title = "First"]').classList.add('paging-selected');
-            } else if (e.target.title == '532') {
+            } else if (e.target.title == maxPage) {
                 document.querySelector('[title = "Last"]').classList.add('paging-selected');
                 document.querySelector('[title = "..."]').classList.add('paging-selected');
             } else if (e.target.title == 'First') {
@@ -129,12 +129,13 @@
         function fillCurrentPages(beginning) {
             var index;
             if (beginning < 1) {
-                index = 1
-            } else if (beginning > maxPage) {
-                index = maxPage;
-            } else {
-                index = beginning - 1;
+                beginning = 1
+            } else if (beginning > maxPage - (itemsPerPage - 1)) {
+                beginning = maxPage - (itemsPerPage - 1);
             }
+
+            index = beginning - 1;
+
 
             var currentPages = [];
             for (let i = 1; i <= itemsPerPage; i++) {
