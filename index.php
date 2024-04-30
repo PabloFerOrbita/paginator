@@ -100,7 +100,7 @@
             } else if (Array.from(pages).indexOf(e.target) < 4 && pages[1].title != '1' ) {
                 fillCurrentPages(parseInt(pages[1].title) - (parseInt(pages[5].title) - parseInt(e.target.title)));
             }
-            e.target.classList.add('paging-selected');
+            pages.forEach(element => element.title == e.target.title && element.classList.add('paging-selected'));
 
 
 
