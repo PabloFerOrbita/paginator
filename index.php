@@ -62,19 +62,69 @@
         </div>
     </div>
     <script type="text/javascript">
+        var maxPage = 532;
+        var itemsPerPage = 7;
+        var totalPages = [];
+        for (let i = 1; i <= maxPage; i++) {
+            let page = document.createElement('a');
+            page.href = `?page=${i}`;
+            page.title = i;
+            page.text = i;
+            totalPages.push(page);
+        };
+
+
+
+
         var pages = document.querySelector('.paging-container').querySelectorAll('a');
-        pages.forEach(element => element.addEventListener('click', selectPage));
+        addEventListeners(pages);
+
+        function addEventListeners(array) {
+            array.forEach(element => element.addEventListener('click', selectPage));
+
+        }
 
         function selectPage(e) {
             e.preventDefault();
+
             pages.forEach(element => element.classList.remove('paging-selected'));
-            e.target.classList.add('paging-selected');
+
             if (e.target.title == '1') {
                 document.querySelector('[title = "First"]').classList.add('paging-selected');
-            } else if (e.target.title == '532'){
+            } else if (e.target.title == '532') {
                 document.querySelector('[title = "Last"]').classList.add('paging-selected');
                 document.querySelector('[title = "..."]').classList.add('paging-selected');
-            } 
+            }
+            if (Array.from(pages).indexOf(e.target) > 4 && pages[7].title != maxPage) {
+                fillCurrentPages(parseInt(e.target.title) - 4);
+            } else if (Array.from(pages).indexOf(e.target) < 4 && pages[1].title != '1' ) {
+                fillCurrentPages(parseInt(pages[1].title) - (parseInt(pages[5].title) - parseInt(e.target.title)));
+            }
+            e.target.classList.add('paging-selected');
+
+
+
+        }
+
+        function fillCurrentPages(beginning) {
+            var index = beginning;
+            var currentPages = [];
+            for (let i = 1; i <= itemsPerPage; i++) {
+                currentPages.push(totalPages[index]);
+                index++
+            }
+            addEventListeners(currentPages);
+            document.querySelectorAll('.paging-container > a:not([title = "First"], [title = "..."], [title = "Last"]').forEach((element, index) => {
+                element.remove()
+            });
+            document.querySelector('[title = "First"]').after(...currentPages);
+            pages = document.querySelector('.paging-container').querySelectorAll('a');
+
+
+
+
+
+
         }
     </script>
 </body>
