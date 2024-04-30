@@ -82,7 +82,10 @@
         function addEventListeners(array) {
             array.forEach(element => element.addEventListener('click', selectPage));
 
+
+
         }
+
 
         function selectPage(e) {
             e.preventDefault();
@@ -94,11 +97,24 @@
             } else if (e.target.title == '532') {
                 document.querySelector('[title = "Last"]').classList.add('paging-selected');
                 document.querySelector('[title = "..."]').classList.add('paging-selected');
-            }
-            if (Array.from(pages).indexOf(e.target) > 4 && pages[7].title != maxPage) {
-                fillCurrentPages(parseInt(e.target.title) - 4);
-            } else if (Array.from(pages).indexOf(e.target) < 4 && pages[1].title != '1' ) {
-                fillCurrentPages(parseInt(pages[1].title) - (parseInt(pages[5].title) - parseInt(e.target.title)));
+            } else if (e.target.title == 'First') {
+                fillCurrentPages(1);
+                document.querySelector('[title = "1"]').classList.add('paging-selected');
+
+            } else if (e.target.title == 'Last') {
+                fillCurrentPages(maxPage - (itemsPerPage - 1));
+                document.querySelector(`[title = "${maxPage}"]`).classList.add('paging-selected');
+                document.querySelector('[title = "..."]').classList.add('paging-selected');
+
+            } else if (e.target.title == '...') {
+                fillCurrentPages(maxPage - (itemsPerPage - 1));
+                document.querySelector(`[title = "${maxPage}"]`).classList.add('paging-selected');
+                document.querySelector('[title = "Last"]').classList.add('paging-selected');
+
+            } else if (Array.from(pages).indexOf(e.target) > 4 && pages[7].title != maxPage) {
+                fillCurrentPages(parseInt(e.target.title) - 3);
+            } else if (Array.from(pages).indexOf(e.target) < 4 && pages[1].title != '1') {
+                fillCurrentPages(parseInt(pages[1].title) - (parseInt(pages[4].title) - parseInt(e.target.title)));
             }
             pages.forEach(element => element.title == e.target.title && element.classList.add('paging-selected'));
 
@@ -106,16 +122,20 @@
 
         }
 
+
+
+
+
         function fillCurrentPages(beginning) {
             var index;
-            if(beginning < 1 ){
+            if (beginning < 1) {
                 index = 1
-            } else if (beginning > maxPage){
-                 index = maxPage;
-            }else {
-                index = beginning;
+            } else if (beginning > maxPage) {
+                index = maxPage;
+            } else {
+                index = beginning - 1;
             }
-            
+
             var currentPages = [];
             for (let i = 1; i <= itemsPerPage; i++) {
                 currentPages.push(totalPages[index]);
