@@ -111,10 +111,10 @@
                 document.querySelector(`[title = "${maxPage}"]`).classList.add('paging-selected');
                 document.querySelector('[title = "Last"]').classList.add('paging-selected');
 
-            } else if (Array.from(pages).indexOf(e.target) > 4 && pages[7].title != maxPage) {
-                fillCurrentPages(parseInt(e.target.title) - 3);
-            } else if (Array.from(pages).indexOf(e.target) < 4 && pages[1].title != '1') {
-                fillCurrentPages(parseInt(pages[1].title) - (parseInt(pages[4].title) - parseInt(e.target.title)));
+            } else if (Array.from(pages).indexOf(e.target) > Math.round(itemsPerPage / 2) && pages[7].title != maxPage) {
+                fillCurrentPages(parseInt(e.target.title) - (Math.round(itemsPerPage / 2) - 1));
+            } else if (Array.from(pages).indexOf(e.target) < Math.round(itemsPerPage / 2) && pages[1].title != '1') {
+                fillCurrentPages(parseInt(pages[1].title) - (parseInt(pages[Math.round(itemsPerPage / 2)].title) - parseInt(e.target.title)));
             }
             pages.forEach(element => element.title == e.target.title && element.classList.add('paging-selected'));
 
